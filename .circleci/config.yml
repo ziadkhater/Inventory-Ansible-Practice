@@ -1,0 +1,49 @@
+version:  2.1
+jobs:
+  append-inventory:                        # Job Name
+    docker:
+      - image: cimg/base:2020.01   # Base Image
+    steps:
+      - checkout
+      - run:
+          name: Install AWS CLI 
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+
+      - run:
+          name: Create inventory file
+            command: |
+              touch inventory
+              echo [all] > inventory
+
+      - run:
+          name: Save servers IPs in inventory
+          command: |
+            aws ec2 describe-instances \
+            \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --filters "Name=tag:Project,Values=udacity" \
+            --output text >> inventory              
+
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - inventory
+
+  print_output_file:
+    docker: 
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/inventory
+
+workflows:
+  my_workflow:
+    jobs:
+      - append-inventory
+      - print_output_file:
+          requires:
+            - append-inventory
