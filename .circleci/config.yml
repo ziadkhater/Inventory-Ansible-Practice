@@ -14,9 +14,9 @@ jobs:
 
       - run:
           name: Create inventory file
-            command: |
-              touch inventory
-              echo [all] > inventory
+          command: |
+            touch inventory
+            echo [all] > inventory
 
       - run:
           name: Save servers IPs in inventory
