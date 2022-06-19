@@ -5,21 +5,21 @@ jobs:
       - image: cimg/base:2020.01   # Base Image
     steps:
       - checkout
-      - run:
+      - run:                        #Install AWS CLI on base docker image 
           name: Install AWS CLI 
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
 
-      - run:
+      - run:                      # create inventory file and add [all] so it can receive IPs from AWS command
           name: Create inventory file
           command: |
             mkdir project
             touch inventory
             echo [all] > project/inventory
 
-      - run:
+      - run:                    # Fetch the EC2 public IPS for all instances with tag project:udacity and save it in project/inventory
           name: Save servers IPs in inventory
           command: |
             aws ec2 describe-instances \
@@ -33,12 +33,12 @@ jobs:
             cd project
             cat inventory
 
-      - persist_to_workspace:
+      - persist_to_workspace:   #save inventory file by workspace
           root: project
           paths:
             - inventory
 
-  print_output_file:
+  print_output_file:            # Another Job to receive the inventory file and print it
     docker: 
       - image: circleci/node:13.8.0
     steps:
