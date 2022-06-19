@@ -27,11 +27,11 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Project,Values=udacity" \
             --output text >> project/inventory
-      - run:
-          name: check files name for testing
-          command: |
-            cd project
-            cat inventory
+      # - run:
+      #     name: check files name for testing
+      #     command: |
+      #       cd project
+      #       cat inventory
 
       - persist_to_workspace:   #save inventory file by workspace
           root: project
@@ -45,7 +45,7 @@ jobs:
       - attach_workspace:
           at: project
       - run: 
-          name: check files name for testing
+          name: Print Inventory
           command: |
             cd project
             cat inventory
