@@ -47,8 +47,7 @@ jobs:
           name: check files name for testing
           command: |
             cd project
-            ls 
-
+            cat inventory
 
 workflows:
   my_workflow:
