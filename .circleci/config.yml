@@ -15,8 +15,9 @@ jobs:
       - run:
           name: Create inventory file
           command: |
+            mkdir project
             touch inventory
-            echo [all] > inventory
+            echo [all] > project/inventory
 
       - run:
           name: Save servers IPs in inventory
@@ -29,22 +30,19 @@ jobs:
       - run:
           name: check files name for testing
           command: |
-            ls /project
             ls /project/inventory
-            ls ~/
-            ls ~/project
 
-      # - persist_to_workspace:
-      #     root: ~/
-      #     paths:
-      #       - project/inventory
+      - persist_to_workspace:
+          root: project
+          paths:
+            - inventory
 
   print_output_file:
     docker: 
       - image: circleci/node:13.8.0
     steps:
       - attach_workspace:
-          at: ~/
+          at: project
       - run: cat /project/inventory
 
 workflows:
