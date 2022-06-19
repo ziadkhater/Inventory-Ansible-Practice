@@ -43,7 +43,12 @@ jobs:
     steps:
       - attach_workspace:
           at: project
-      - run: ls
+      - run: 
+          name: check files name for testing
+          command: |
+            cd project
+            ls 
+
 
 workflows:
   my_workflow:
