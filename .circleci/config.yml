@@ -16,7 +16,7 @@ jobs:
           name: Create inventory file
           command: |
             touch inventory
-            echo [all] > inventory
+            echo [all] > /project/inventory
 
       - run:
           name: Save servers IPs in inventory
