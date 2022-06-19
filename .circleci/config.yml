@@ -16,7 +16,7 @@ jobs:
           name: Create inventory file
           command: |
             touch inventory
-            echo [all] > /project/inventory
+            echo [all] > inventory
 
       - run:
           name: Save servers IPs in inventory
@@ -26,11 +26,18 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Project,Values=udacity" \
             --output text >> inventory
+      - run:
+          name: check files name for testing
+          command: |
+            ls /project
+            ls /project/inventory
+            ls ~/
+            ls ~/project
 
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/inventory
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths:
+      #       - project/inventory
 
   print_output_file:
     docker: 
