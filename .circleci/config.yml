@@ -30,7 +30,8 @@ jobs:
       - run:
           name: check files name for testing
           command: |
-            cat /project/inventory
+            cd project
+            cat inventory
 
       - persist_to_workspace:
           root: project
