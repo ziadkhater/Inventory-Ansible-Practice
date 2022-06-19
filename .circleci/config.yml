@@ -43,7 +43,7 @@ jobs:
     steps:
       - attach_workspace:
           at: project
-      - run: cat /project/inventory
+      - run: cat inventory
 
 workflows:
   my_workflow:
