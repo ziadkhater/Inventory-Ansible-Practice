@@ -26,7 +26,7 @@ jobs:
             \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Project,Values=udacity" \
-            --output text >> inventory
+            --output text >> project/inventory
       - run:
           name: check files name for testing
           command: |
